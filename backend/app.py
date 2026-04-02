@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from datetime import timedelta, datetime
 import bcrypt
-from database import db, User, GlucoseReading, FoodLog
+from .database import db, User, GlucoseReading, FoodLog
 import numpy as np
 from sklearn.linear_model import LinearRegression
 import json
