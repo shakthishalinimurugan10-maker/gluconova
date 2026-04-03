@@ -72,7 +72,7 @@ def login():
             return jsonify({'error': 'User not found'}), 404
         
         if bcrypt.checkpw(password.encode('utf-8'), user.password_hash.encode('utf-8')):
-            access_token = create_access_token(identity=user.id)
+            access_token = create_access_token(identity=str(user.id))
             return jsonify({
                 'token': access_token,
                 'user': {
@@ -93,7 +93,7 @@ def login():
 @jwt_required()
 def add_glucose_reading():
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         data = request.json
         value = data.get('value')
         
@@ -117,7 +117,7 @@ def add_glucose_reading():
 @jwt_required()
 def get_glucose_readings():
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         limit = request.args.get('limit', 30, type=int)
         
         readings = GlucoseReading.query.filter_by(user_id=user_id)\
@@ -138,7 +138,7 @@ def get_glucose_readings():
 @jwt_required()
 def get_latest_glucose():
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         latest = GlucoseReading.query.filter_by(user_id=user_id)\
             .order_by(GlucoseReading.timestamp.desc()).first()
         
@@ -212,7 +212,7 @@ def update_food_impacts(user_id, new_glucose_value):
 @jwt_required()
 def predict_food():
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         data = request.json
         food_name = data.get('food_name')
         
@@ -231,7 +231,7 @@ def predict_food():
 @jwt_required()
 def log_food():
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         data = request.json
         food_name = data.get('food_name')
         predicted_impact = data.get('predicted_impact')
@@ -256,7 +256,7 @@ def log_food():
 @jwt_required()
 def weekly_report():
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         from datetime import datetime, timedelta
         
         week_ago = datetime.utcnow() - timedelta(days=7)
@@ -313,7 +313,7 @@ def weekly_report():
 @jwt_required()
 def get_insights():
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         
         # Get recent readings
         readings = GlucoseReading.query.filter_by(user_id=user_id)\
@@ -379,7 +379,7 @@ def get_insights():
 def simulate_esp32():
     """Simulate ESP32 sensor reading"""
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         import random
         
         # Simulate realistic glucose reading (70-200 mg/dL)
