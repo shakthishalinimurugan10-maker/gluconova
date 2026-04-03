@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://gluconova-1-1h9i.onrender.com';
 
 // Tab switching
 document.querySelectorAll('.tab-btn').forEach(btn => {
