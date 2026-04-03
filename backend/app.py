@@ -4,8 +4,6 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 from datetime import timedelta, datetime
 import bcrypt
 from database import db, User, GlucoseReading, FoodLog
-import numpy as np
-from sklearn.linear_model import LinearRegression
 import json
 
 app = Flask(__name__)
